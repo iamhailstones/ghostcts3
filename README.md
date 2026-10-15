@@ -1,7 +1,7 @@
 # GHOST - Python Combat Simulator
 
 A top-down browser shooter that teaches Python. Survive 10 levels, defeat THE COMMANDER, and solve Python challenges to earn ammo, shields, bombs and abilities.
-Pure HTML5, CSS3 and vanilla JavaScript on a canvas. No dependencies, no backend, no build step.
+Pure HTML5, CSS3 and vanilla JavaScript on a canvas. No dependencies, no backend, no build step..
 
 ## Run it (Ubuntu / Linux)
 ```bash
