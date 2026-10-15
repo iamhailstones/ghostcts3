@@ -1,0 +1,220 @@
+/* GHOST - styles */
+:root{--blue:#2e8bff;--red:#ff3b4a;--green:#39ff7a}
+*{box-sizing:border-box}
+body{margin:0;background:#070b14;color:#cfe3ff;font-family:"Courier New",monospace;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}
+#wrap{position:relative;width:min(96vw,900px)}
+canvas{width:100%;display:block;background:#0a1020;border:2px solid #17305a;border-radius:6px;cursor:crosshair}
+#hud{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;padding:6px 2px;color:#8fb6ff;align-items:center}#hud b{color:#fff}
+.bar{display:inline-block;width:100px;height:10px;background:#1a2333;vertical-align:middle}.bar i{display:block;height:100%;background:var(--green);width:100%}
+.ov{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(5,8,16,.93);text-align:center;padding:14px;overflow:auto}
+.ov.on{display:flex}
+h1{font-size:clamp(40px,10vw,76px);letter-spacing:12px;margin:0;color:#fff;text-shadow:0 0 18px var(--blue)}
+h2{margin:0;color:#fff;letter-spacing:3px}
+button{font:inherit;background:#0f2447;color:#cfe3ff;border:1px solid var(--blue);padding:9px 20px;cursor:pointer;letter-spacing:2px}
+button:hover,button:focus-visible{background:var(--blue);color:#000;outline:none}
+button:disabled{opacity:.4;cursor:default}
+textarea{width:min(580px,92%);height:120px;background:#02060c;color:var(--green);border:1px solid var(--green);font:inherit;padding:8px}
+pre{margin:0;color:#7dffb0;background:#02060c;padding:8px;text-align:left;max-width:580px;overflow:auto}
+.t{color:#9fc1ff;max-width:580px;font-size:14px;line-height:1.5}
+#msg{position:absolute;top:10px;left:0;right:0;text-align:center;color:#ffd54f;font-weight:bold;pointer-events:none;text-shadow:0 0 6px #000}
+#foot{font-size:12px;color:#5f7fb3;padding-top:4px}
+#wrap::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:6px;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+canvas{box-shadow:0 0 34px rgba(46,139,255,.4),inset 0 0 40px rgba(0,0,0,.6)}
+h1{animation:glow 2.4s ease-in-out infinite alternate}
+@keyframes glow{to{text-shadow:0 0 30px #ff3b4a,0 0 10px #39ff7a;transform:scale(1.04) rotate(-1deg)}}
+@keyframes glitch{0%,90%,100%{transform:none}93%{transform:translate(-5px,2px) skew(-6deg)}96%{transform:translate(5px,-2px) skew(6deg)}}
+#ld{width:min(360px,70%);height:8px;background:#102040;border:1px solid var(--blue)}
+#ld i{display:block;height:100%;width:0;background:var(--green);animation:ld 2s forwards}
+@keyframes ld{to{width:100%}}
+.blink{animation:bl 1s infinite;color:#cfe3ff;letter-spacing:3px;font-size:14px}
+@keyframes bl{50%{opacity:.2}}
+#pname{font:inherit;font-size:16px;text-align:center;letter-spacing:3px;text-transform:uppercase;background:#02060c;color:#fff;border:1px solid var(--green);padding:9px 14px;width:min(260px,80%)}
+#pname:focus{outline:none;box-shadow:0 0 12px var(--green)}
+
+.ov{z-index:5}#msg{z-index:3}
+#touch{position:absolute;inset:0;pointer-events:none;z-index:2;touch-action:none}
+#touch .js{position:absolute;bottom:14px;width:120px;height:120px;border-radius:50%;background:rgba(46,139,255,.12);border:2px solid rgba(46,139,255,.5);pointer-events:auto;touch-action:none}
+#jl{left:14px}#jr{right:14px}
+#touch .js i{position:absolute;left:36px;top:36px;width:48px;height:48px;border-radius:50%;background:rgba(111,211,255,.5)}
+#touch button{position:absolute;pointer-events:auto;touch-action:none;width:58px;height:58px;border-radius:50%;padding:0;font-size:12px}
+#tr{right:150px;bottom:20px}#tb{right:150px;bottom:86px}#tq{right:20px;bottom:150px}#tc{left:20px;bottom:150px}
+@media(max-width:700px){#hud{font-size:11px;gap:2px 10px}#foot{display:none}}
+
+/* ---------- cinematic boot screen + title lockup ---------- */
+#boot{position:fixed;inset:0;z-index:100;background:#02040a;overflow:hidden;transition:opacity .9s ease}
+#boot.out{opacity:0;pointer-events:none}
+#boot .artbox{position:absolute;left:0;top:0;opacity:0;transition:opacity 1.8s ease}
+#boot.s-art .artbox{opacity:1}
+#boot .artbox img{width:100%;height:100%;display:block;position:relative;z-index:0;-webkit-mask-image:linear-gradient(90deg,#000 80%,transparent 100%);mask-image:linear-gradient(90deg,#000 80%,transparent 100%)}
+#bootFx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 2s;background:none;border:0;border-radius:0;box-shadow:none}   /* the general canvas style (dark panel + border) must not apply to the smoke layer */#boot.s-art #bootFx{opacity:1}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 35% 45%,transparent 55%,rgba(2,4,10,.7) 100%)}
+.seye{position:absolute;width:1.9%;height:.55%;border-radius:50%;opacity:0;mix-blend-mode:screen;z-index:2;transform:translate(-50%,-50%) rotate(24deg);
+ background:radial-gradient(ellipse,#fff 0,#9be7ff 35%,rgba(70,170,255,0) 75%);box-shadow:0 0 1.2vh .4vh rgba(90,190,255,.85);transition:opacity 1.6s}
+.e1{left:74%;top:32.5%}.e2{left:79.6%;top:34.3%;width:1.5%}
+#boot.s-eyes .seye{opacity:1;animation:blink 5.7s infinite 1.6s}
+@keyframes blink{0%,83%,87%,93%,100%{transform:translate(-50%,-50%) rotate(24deg) scaleY(1);filter:brightness(1)}
+ 84.5%,94.5%{transform:translate(-50%,-50%) rotate(24deg) scaleY(.06);filter:brightness(.15)}}
+.bootui{position:absolute;left:max(46vh,28%);right:4%;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;text-align:center}
+.lockup{display:flex;flex-direction:column;align-items:center;gap:12px}
+.logo{font:italic 900 clamp(64px,13vw,150px)/1 Impact,"Arial Black","Haettenschweiler",sans-serif;letter-spacing:.02em;display:flex;align-items:center;
+ background:linear-gradient(180deg,#fff 10%,#9fb8d6 50%,#3a4f73 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1px rgba(5,7,13,.8);
+ filter:drop-shadow(0 0 22px rgba(46,139,255,.6))}
+.gmask{height:.84em;width:auto;margin:0 .03em;overflow:visible;filter:drop-shadow(0 0 6px rgba(111,211,255,.7))}
+.gmask .hood{fill:#05070d;stroke:#cfe8ff;stroke-width:3}
+.gmask .eye{fill:#fff;filter:drop-shadow(0 0 3px #6fd3ff);transform-box:fill-box;transform-origin:center;animation:eyeblink 5.7s infinite 1.6s}
+@keyframes eyeblink{0%,83%,87%,93%,100%{transform:scaleY(1);opacity:1}84.5%,94.5%{transform:scaleY(.08);opacity:.25}}
+.sub{display:flex;align-items:center;justify-content:center;gap:14px;font:600 clamp(14px,2.6vw,26px)/1 Rajdhani,"Segoe UI","Helvetica Neue",Arial,sans-serif;letter-spacing:.42em;color:#e8f1ff;margin-right:-.42em}
+.cts{font-size:.62em;letter-spacing:.2em;padding:4px 8px;border:1px solid #2e8bff;color:#6fd3ff;background:rgba(46,139,255,.12)}
+.tag{font:12px "Courier New",monospace;letter-spacing:.35em;color:#39ff7a}
+.lockup.sm .logo{font-size:clamp(48px,11vw,84px)}.lockup.sm .sub{font-size:clamp(11px,2vw,16px)}
+#bootTitle .logo,#bootTitle .sub,#bootTitle .tag{opacity:0}
+#boot.s-ghost #bootTitle .logo{animation:revealGhost 1.7s forwards,glitch 7s 2.4s infinite}
+#boot.s-cts #bootTitle .sub{animation:revealSub 1.6s forwards}#boot.s-cts #bootTitle .tag{animation:fadeIn 2s .8s forwards}
+@keyframes revealGhost{0%{opacity:0;transform:translateX(-14px) skewX(-18deg);filter:blur(12px) drop-shadow(-6px 0 #ff2e63)}
+ 18%{opacity:.8;transform:translateX(10px);filter:blur(2px) drop-shadow(6px 0 #2e8bff)}28%{opacity:.15}
+ 45%{opacity:1;transform:translateX(-5px);filter:drop-shadow(4px 0 #ff2e63)}60%{transform:translateX(3px)}
+ 100%{opacity:1;transform:none;filter:blur(0) drop-shadow(0 0 22px rgba(46,139,255,.6))}}
+@keyframes glitch{0%,95%,100%{transform:none}96%{transform:translate(-4px,1px) skewX(-6deg);filter:drop-shadow(-4px 0 #ff2e63) drop-shadow(4px 0 #2e8bff)}98%{transform:translate(3px,-1px) skewX(5deg)}}
+@keyframes revealSub{from{opacity:0;letter-spacing:.95em}to{opacity:1;letter-spacing:.42em}}
+@keyframes fadeIn{to{opacity:1}}
+#bootLoad{width:min(420px,80%)}
+.trk{height:6px;background:#0e1a30;border:1px solid #1d3a6e}.trk i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2e8bff,#6fd3ff);box-shadow:0 0 12px #2e8bff}
+.lbl{display:flex;justify-content:space-between;font:11px "Courier New",monospace;letter-spacing:.2em;color:#7fa4d6;margin-top:6px}
+#bootGo{display:none;font:900 18px Impact,"Arial Black",sans-serif;letter-spacing:.3em;padding:14px 46px;background:rgba(46,139,255,.08);border:2px solid #2e8bff;color:#fff;box-shadow:0 0 18px rgba(46,139,255,.5) inset,0 0 18px rgba(46,139,255,.4)}
+#bootGo.on{display:block;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{box-shadow:0 0 28px rgba(46,139,255,.8) inset,0 0 30px rgba(46,139,255,.7)}}
+#bootErr{display:none;color:#ff6b7a;font-size:14px}#bootErr.on{display:flex;flex-direction:column;gap:10px;align-items:center}
+@media(max-aspect-ratio:1/1){
+.vig{background:linear-gradient(0deg,#02040a 10%,transparent 48%),radial-gradient(ellipse at 50% 35%,transparent 55%,rgba(2,4,10,.6) 100%)}
+ .bootui{left:0;right:0;top:auto;height:52vh;padding:0 5vw 5vh;justify-content:flex-end;gap:20px}}
+@media(prefers-reduced-motion:reduce){#boot .artbox{transition:none}#bootTitle .logo,#bootTitle .sub,#bootTitle .tag{opacity:1;animation:none!important}
+ .seye{opacity:1!important;animation:none!important}.gmask .eye{animation:none}#bootGo.on{animation:none}}
+
+/* ---------- tactical (CoD-style) in-game look ---------- */
+canvas#c{cursor:none;border-color:#2b3326;box-shadow:0 0 40px rgba(0,0,0,.7);filter:contrast(1.1) saturate(.8)}
+#wrap::after{display:none}
+#hud>span{display:none}#hud{justify-content:flex-end;padding:2px}
+#msg{color:#e8ece0;font-family:Impact,"Arial Black",sans-serif;letter-spacing:.2em;font-size:18px;top:112px}
+
+/* ---------- gun market + empty-magazine pop-up (new, uses the existing palette and fonts) ---------- */
+#gunb{position:absolute;top:12px;right:12px;z-index:1;padding:6px 12px;font-size:12px}
+.gmList{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:860px}
+.gmc{width:190px;background:#0a1224;border:1px solid #17305a;padding:8px;text-align:left;font-size:12px;color:#9fc1ff}
+.gmc.sel{border-color:#39ff7a;box-shadow:0 0 10px rgba(57,255,122,.35)}
+.gmc b{color:#fff;letter-spacing:3px;font-size:14px}.gmc canvas{display:block;margin:4px auto;background:#02060c;width:100%;height:auto}
+.gmc .st{display:flex;justify-content:space-between;line-height:1.5}.gmc .row{display:flex;margin-top:6px}.gmc button{flex:1;padding:5px 4px;font-size:11px;letter-spacing:1px}
+.gmc .note{margin-top:6px;color:#39ff7a;font-size:11px;letter-spacing:1px}
+#rl{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);display:none;z-index:4;background:rgba(5,8,16,.93);border:1px solid #2e8bff;padding:10px 14px;text-align:center;box-shadow:0 0 18px rgba(46,139,255,.35);animation:rlIn .25s}
+#rl.on{display:block}#rl b{font:900 16px Impact,"Arial Black",sans-serif;letter-spacing:3px;color:#ff6b7a}
+#rl pre{margin:6px auto;color:#7dffb0;background:#02060c;padding:6px 10px;font-size:12px;text-align:center}
+#rl .row{display:flex;gap:8px;justify-content:center;margin-top:6px}#rl button{padding:6px 12px;font-size:12px}
+@keyframes rlIn{from{opacity:0;transform:translate(-50%,12px)}}
+#tw{right:86px;bottom:150px}#tg{left:86px;bottom:150px}
+.gmc .py{color:#39ff7a;font-family:"Courier New",monospace;font-size:11px;margin-left:4px}
+.gmc .rule{margin:6px 0 0;color:#9fc1ff;font-size:11px;line-height:1.4;min-height:60px}
+#cl{color:#9fc1ff;border-left:2px solid #39ff7a;padding-left:10px}
+#cfb{white-space:pre-wrap}
+
+/* ---------- Python rule console + extra navigation buttons (same palette and fonts) ---------- */
+#pyr .row,#chal .row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+#pyr pre{text-align:left;font-size:13px;white-space:pre-wrap;max-width:580px}#pyr textarea{height:64px}
+#pyWhy{border-left:2px solid #39ff7a;padding-left:10px;max-width:580px}#pyr button{padding:7px 12px;font-size:12px}
+
+/* ---------- phone landscape fit (desktop is not affected: needs a touch screen) ---------- */
+
+/* ---------- phones and tablets (touch screens only; laptops/desktops keep the original layout) ---------- */
+@media (pointer:coarse){
+ html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+ body{height:100vh;height:100dvh;min-height:0}
+ canvas#c{border:0;border-radius:0;box-shadow:none;touch-action:none}
+ button{min-height:40px}
+ /* every screen/panel uses the whole display; a strip at the top is kept free for the PAUSE button, content scrolls inside the panel */
+ .ov{position:fixed;inset:0;justify-content:flex-start;padding:calc(44px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left))}
+ .ov>:first-child{margin-top:auto}.ov>:last-child{margin-bottom:auto}
+ #gunb{position:static}
+ #hud{position:fixed;top:calc(4px + env(safe-area-inset-top));right:calc(6px + env(safe-area-inset-right));z-index:7;padding:0}#hud button{padding:6px 14px;font-size:12px}
+ /* touch controls are docked to the screen edges (outside the game picture when the screen is wider) and only exist while playing */
+ :root{--js:96px}
+ #touch{position:fixed;inset:0;z-index:3;display:none}body.playing #touch{display:block}
+ #touch .js{width:var(--js);height:var(--js);bottom:calc(8px + env(safe-area-inset-bottom));opacity:.85}#touch .js i{left:27%;top:27%;width:46%;height:46%}
+ #jl{left:calc(8px + env(safe-area-inset-left))}#jr{right:calc(8px + env(safe-area-inset-right))}
+ #touch button{width:56px;height:56px;border-radius:50%;font-size:12px;font-weight:bold;padding:0;opacity:.9;background:rgba(15,36,71,.85);border-width:2px;bottom:calc(var(--js) + 18px + env(safe-area-inset-bottom))}
+ #tc{left:calc(8px + env(safe-area-inset-left))}#tg{left:calc(70px + env(safe-area-inset-left))}
+ #tq{right:calc(8px + env(safe-area-inset-right))}#tw{right:calc(70px + env(safe-area-inset-right))}
+ #touch #tf{width:84px;height:84px;font-size:15px;letter-spacing:1px;box-shadow:0 0 14px rgba(255,59,74,.55);border-radius:50%;right:calc(8px + env(safe-area-inset-right));bottom:calc(var(--js) + 14px + env(safe-area-inset-bottom));background:#3a0f16;border-color:var(--red);color:#fff;font-weight:bold;opacity:.95}#touch #tf:active{background:var(--red)}
+ #touch #tq,#touch #tw{bottom:calc(var(--js) + 106px + env(safe-area-inset-bottom))}
+ #touch #tb{right:calc(8px + env(safe-area-inset-right));bottom:calc(var(--js) + 168px + env(safe-area-inset-bottom))}#touch #tr{right:calc(70px + env(safe-area-inset-right));bottom:calc(var(--js) + 168px + env(safe-area-inset-bottom))}
+}
+@media (pointer:coarse) and (orientation:landscape){
+ #foot{display:none}
+ #wrap{width:min(100vw,calc(100vh*1.5));width:min(100vw,calc(100dvh*1.5))}
+ :root{--band:max(0px,calc((100vw - min(100vw,100dvh*1.5))/2));--js:clamp(72px,calc(var(--band) - 6px),100px)}
+ .ov{gap:6px}.ov button{padding:6px 14px;font-size:13px}.lockup.sm .logo{font-size:40px}.lockup.sm .tag{display:none}.gmc{width:170px}.gmc canvas{max-height:36px}#pyIn{height:44px!important}
+}
+/* ---------- lesson code editor: readable, never congested, scrolls to the caret ---------- */
+#cinfo{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:100%}
+#cin{font:15px/1.6 "Courier New",monospace;white-space:pre;overflow:auto;tab-size:4;caret-color:#39ff7a;color:#b6ffd0;letter-spacing:.2px;height:clamp(120px,24vh,260px);width:min(640px,94%)}
+#chal .t{font-size:14px;line-height:1.5}#cc{font-size:14px}
+@media (pointer:coarse){#chal{overflow:hidden;gap:6px}#cinfo{flex:0 1 auto;max-height:40%;overflow:auto}#cin{font-size:16px;flex:1 1 90px;min-height:80px;height:auto;width:min(900px,100%)}#cfb{max-height:22%;overflow:auto;flex:0 1 auto}#chal>div:last-child{flex:none}
+ body.kb #chal,body.kb #pyr{top:var(--vvt,0px);bottom:auto;height:var(--vvh,100%)}body.kb #cinfo{max-height:26%}
+ body.kb #chal{overflow:auto;padding-top:8px;gap:4px}body.kb #chal h2{font-size:15px}body.kb #chal button{min-height:34px;padding:4px 10px}}
+textarea:focus{outline:2px solid #39ff7a;outline-offset:0}
+/* ---------- rotate prompt: shown only when landscape cannot be locked ---------- */
+#orient{position:fixed;inset:0;z-index:300;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#02040a;color:#cfe3ff;text-align:center;padding:20px;font-family:"Courier New",monospace}
+#orient.on{display:flex}#orient b{font:900 34px Impact,"Arial Black",sans-serif;letter-spacing:6px;color:#fff;text-shadow:0 0 18px #2e8bff}
+#orient .phone{width:44px;height:72px;border:3px solid #2e8bff;border-radius:8px;animation:turn 2.4s ease-in-out infinite}
+@keyframes turn{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
+#orient #orientSkip{background:none;border:0;color:#7fa4d6;text-decoration:underline;font-size:12px;letter-spacing:1px;padding:4px}
+
+/* ---------- exit / confirm / tips / audio settings / button feedback ---------- */
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active{transform:translateY(1px) scale(.98);filter:brightness(1.25)}button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+#cfm .row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.aud{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;align-items:center;font-size:12px;color:#9fc1ff;letter-spacing:1px}
+.aud input[type=range]{width:96px;accent-color:#2e8bff;vertical-align:middle;min-height:0}.aud .vb{padding:6px 12px;font-size:12px;min-height:34px}
+#tip{position:absolute;left:50%;top:150px;transform:translateX(-50%);max-width:min(520px,76%);display:none;z-index:4;background:rgba(5,8,16,.9);border:1px solid #2e8bff;color:#cfe3ff;font-size:13px;line-height:1.4;padding:8px 38px 8px 12px;text-align:center}
+#tip.on{display:block}#tip button{position:absolute;right:2px;top:2px;min-height:28px;padding:0 8px;font-size:12px}
+#cguide{color:#39ff7a;font-size:13px}
+
+/* the main menu grew by two rows (audio settings, EXIT GAME): tighter spacing keeps it inside the panel, and it scrolls from the top if a screen is still too short */
+#menu{justify-content:flex-start;gap:6px}#menu>:first-child{margin-top:auto}#menu>:last-child{margin-bottom:auto}#menu button{padding:7px 18px}
+/* ---------- main menu: button grid, smiling soldier assistant + contact links, chat panel, tutorial ---------- */
+.mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;width:min(480px,100%)}.mgrid button{width:100%;padding:7px 8px;font-size:12px;letter-spacing:1px}
+.asst{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+#menu .asstbtn,.asstbtn{background:none;border:0;padding:0;width:84px;height:98px;min-height:0;cursor:pointer;border-radius:12px}.asstbtn:hover,.asstbtn:focus-visible{background:none;filter:drop-shadow(0 0 8px #2e8bff);color:inherit}
+.solsvg{width:100%;height:100%;display:block;overflow:visible;animation:solIn .7s ease-out both}
+.sol{transform-box:view-box;transform-origin:60px 140px;animation:solBob 3.2s ease-in-out infinite}.hand{transform-box:view-box;transform-origin:90px 108px;animation:solWave 2.4s ease-in-out infinite}
+.eyes{transform-box:view-box;transform-origin:60px 63px;animation:solBlink 5s infinite}
+.solsvg.pop{animation:solPop .5s ease-out}.solsvg.think .sol{animation:solThink 1s ease-in-out infinite}
+@keyframes solIn{from{opacity:0;transform:translateY(14px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes solBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+@keyframes solWave{0%,55%,100%{transform:rotate(0)}65%{transform:rotate(-22deg)}75%{transform:rotate(14deg)}85%{transform:rotate(-18deg)}92%{transform:rotate(6deg)}}
+@keyframes solBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes solPop{0%{transform:scale(1)}40%{transform:scale(1.12) rotate(-3deg)}100%{transform:scale(1)}}
+@keyframes solThink{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(3deg) translateY(-1px)}}
+.asstt{display:flex;flex-direction:column;text-align:left}.asstt b{color:#fff;font-size:16px;letter-spacing:1px}.asstt span{font-size:11px;color:#9fc1ff;letter-spacing:2px}
+.assistant-contact-links{display:flex;gap:10px}.assistant-contact-links a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #2e8bff;color:#cfe3ff;background:#0f2447;border-radius:8px;transition:background .12s}
+.assistant-contact-links a:hover,.assistant-contact-links a:focus-visible{background:#2e8bff;color:#000;outline:2px solid #fff;outline-offset:2px}.assistant-contact-links svg{width:22px;height:22px}
+@media(prefers-reduced-motion:reduce){.solsvg,.sol,.hand,.eyes{animation:none!important}}
+#chatp{justify-content:flex-start;gap:6px}#chatp>*{width:min(640px,100%);box-sizing:border-box}
+.chead{display:flex;align-items:center;gap:10px}.chead b{flex:1;text-align:left;letter-spacing:2px;color:#fff}.chsol{width:40px;height:46px;display:inline-block}.chsol svg{width:100%;height:100%}
+#chLog{flex:1 1 auto;min-height:90px;overflow:auto;border:1px solid #17305a;background:#02060c;padding:8px;text-align:left;font-size:14px;line-height:1.5}
+.cm{margin:4px 0;padding:6px 10px;border-radius:8px;max-width:92%;white-space:pre-wrap;overflow-wrap:anywhere}.cm.user{background:#0f2447;margin-left:auto;color:#fff}.cm.bot{background:#0a1730;color:#cfe3ff;border-left:3px solid #39ff7a}
+#chSug{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}#chSug button{font-size:12px;padding:4px 10px;min-height:32px}
+.crow{display:flex;gap:6px;align-items:center}.crow input{flex:1;min-width:0;font:inherit;font-size:16px;background:#02060c;color:#fff;border:1px solid #39ff7a;padding:8px}
+.crow button{flex:none}#chMic.rec{background:#c0392b;color:#fff;animation:recp 1s infinite}@keyframes recp{50%{opacity:.6}}
+.cset{flex-wrap:wrap;justify-content:center}.cset select{max-width:230px;background:#02060c;color:#cfe3ff;border:1px solid #2e8bff;padding:6px;font:inherit;font-size:12px}
+#chNote{min-height:18px;font-size:12px;color:#ffd54f;text-align:left}
+#tut .tinner{width:min(560px,100%);display:flex;flex-direction:column;align-items:center;gap:10px}#tut #tutBody{font-size:15px;line-height:1.55}#tutStep{color:#39ff7a;letter-spacing:1px}.tsol{width:70px;height:82px;display:inline-block}.tsol svg{width:100%;height:100%}
+#tut .row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+
+#touch button:active{background:var(--blue);color:#000;transform:scale(.94)}
+/* short landscape phones (height <= 380px): slightly smaller round buttons so nothing touches PAUSE */
+@media (pointer:coarse) and (orientation:landscape) and (max-height:380px){
+ #touch button{width:48px;height:48px;font-size:11px}
+ #touch #tf{width:74px;height:74px;font-size:14px}
+ #tg{left:calc(62px + env(safe-area-inset-left))}
+ #touch #tw,#touch #tr{right:calc(62px + env(safe-area-inset-right))}
+ #touch #tq,#touch #tw{bottom:calc(var(--js) + 96px + env(safe-area-inset-bottom))}
+ #touch #tb,#touch #tr{bottom:calc(var(--js) + 152px + env(safe-area-inset-bottom))}
+}

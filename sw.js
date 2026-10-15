@@ -1,0 +1,3 @@
+const C='ghost-v1',F=['./','index.html','manifest.json','css/style.css','assets/icon.svg','js/utils.js','js/levels.js','js/storage.js','js/challenges.js','js/audio.js','js/voice.js','js/pyengine.js','js/practice.js','js/assistant.js','assets/soldier_assistant.svg','js/game.js','js/weapons.js','js/bombs.js','js/enemies.js','js/player.js','js/ui.js','js/market.js','js/pyrules.js','js/render.js','js/touch.js','js/boot.js','js/orient.js','js/editor.js','assets/ghost-key-art.jpg','js/main.js'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(F))));
+self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));

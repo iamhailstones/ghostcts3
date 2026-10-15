@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><meta name="theme-color" content="#070b14"><title>GHOST - Python Combat Simulator</title>
+<link rel="manifest" href="manifest.json"><link rel="icon" href="assets/icon.svg"><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<div id="hud">
+ <span>HP <span class="bar"><i id="hp"></i></span></span>
+ <span>AMMO <b id="ammo"></b></span><span>BOMBS <b id="bombs"></b></span>
+ <span>LVL <b id="lvl"></b></span><span>WAVE <b id="wave"></b></span>
+ <span>ENEMIES <b id="left"></b></span><span>SCORE <b id="score"></b></span><span>KILLS <b id="kills"></b></span>
+ <span>WEAPON <b>PISTOL</b></span><button id="pbtn" style="padding:3px 10px">PAUSE</button>
+</div>
+<div id="wrap">
+ <canvas id="c" width="900" height="600"></canvas><div id="msg"></div>
+  <div class="ov" id="menu"><div class="lockup sm" id="menuTitle"></div>
+  <div class="t">Survive the facility. Out of ammo? Write real Python to rearm. Python lessons are checked against known solution patterns; Practice Mode runs your functions in a sandbox.</div>
+  <input id="pname" maxlength="12" placeholder="ENTER CODENAME" autocomplete="off" spellcheck="false">
+  <div class="mgrid"><button id="play">PLAY</button><button id="train">TRAINING MODE</button><button id="practb">PRACTICE MODE</button><button id="howb">HOW TO PLAY</button><button id="sndb">SETTINGS: SOUND ON</button><button id="musb">MUSIC: ON</button><button id="reset">RESET PROGRESS</button><button id="exitb">EXIT GAME</button></div>
+  <button id="gunb">GUN MARKET</button>
+  <div class="aud" id="audMenu"></div>
+  <div class="asst"><button id="asstb" class="asstbtn" aria-label="Ask me anything! AI Game Assistant"><svg id="solSvg" class="solsvg" viewBox="0 0 120 140" aria-hidden="true" focusable="false">
+<g class="sol"><path d="M22 140c0-26 12-40 38-40s38 14 38 40z" fill="#3f5a3a"/><path d="M36 140l6-34h36l6 34z" fill="#2d4129"/><rect x="45" y="108" width="12" height="9" rx="2" fill="#1b2118"/><rect x="63" y="108" width="12" height="9" rx="2" fill="#1b2118"/>
+<rect x="52" y="84" width="16" height="18" rx="6" fill="#e0ac86"/><circle cx="60" cy="62" r="24" fill="#f1c4a0"/>
+<path d="M34 58c0-22 11-34 26-34s26 12 26 34c-8-8-18-12-26-12s-18 4-26 12z" fill="#3a4a34"/><path d="M34 58c8-6 18-9 26-9s18 3 26 9" fill="none" stroke="#252f21" stroke-width="4"/><path d="M42 40c5-8 12-11 18-11" fill="none" stroke="#6b8a5d" stroke-width="3" stroke-linecap="round"/>
+<g class="eyes"><ellipse cx="51" cy="63" rx="4.5" ry="5" fill="#fff"/><ellipse cx="69" cy="63" rx="4.5" ry="5" fill="#fff"/><circle cx="52" cy="64" r="2.4" fill="#1b2430"/><circle cx="70" cy="64" r="2.4" fill="#1b2430"/><circle cx="52.8" cy="63" r=".8" fill="#fff"/><circle cx="70.8" cy="63" r=".8" fill="#fff"/></g>
+<path d="M46 55q5-3 9 0M65 55q5-3 9 0" fill="none" stroke="#5a3d2b" stroke-width="2" stroke-linecap="round"/>
+<path d="M48 72q12 12 24 0" fill="#fff" stroke="#7a3b2e" stroke-width="2.4" stroke-linejoin="round"/><path d="M50 73q10 6 20 0" fill="none" stroke="#e8d5c8" stroke-width="1"/>
+<circle cx="36" cy="66" r="6" fill="#1b2430"/><path d="M36 71q0 16 14 12" fill="none" stroke="#1b2430" stroke-width="2.2" stroke-linecap="round"/><circle cx="51" cy="82" r="2.6" fill="#2e8bff"/>
+<path d="M30 112c-8 6-10 16-8 28" fill="none" stroke="#3f5a3a" stroke-width="10" stroke-linecap="round"/>
+<g class="hand"><path d="M90 108c10-6 14-18 14-34" fill="none" stroke="#3f5a3a" stroke-width="11" stroke-linecap="round"/><circle cx="104" cy="66" r="8.5" fill="#f1c4a0"/><ellipse cx="98" cy="58" rx="2.6" ry="5" fill="#f1c4a0"/><ellipse cx="104" cy="56" rx="2.6" ry="5.5" fill="#f1c4a0"/><ellipse cx="110" cy="58" rx="2.6" ry="5" fill="#f1c4a0"/></g></g></svg></button>
+   <div class="asstt"><b>Ask me anything!</b><span>AI Game Assistant</span></div>
+   <div class="assistant-contact-links"><a href="https://x.com/GHOST_CTS_3" target="_blank" rel="noopener noreferrer" aria-label="Visit us on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.2 22H2l7.7-8.8L1.4 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.4 3.9H5.5L17.7 20z"/></svg></a>
+    <a href="mailto:iamhailstones@gmail.com" aria-label="Email us"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3 5h18v14H3z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3 6l9 7 9-7"/></svg></a></div></div>
+  <div id="mailfb" hidden><span>Email app did not open? Write to <b>iamhailstones@gmail.com</b></span><button id="mailCopy">COPY EMAIL</button><a id="mailGmail" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=iamhailstones@gmail.com&amp;su=GHOST%20CTS3" target="_blank" rel="noopener noreferrer">OPEN GMAIL</a><button id="mailX" aria-label="Close">x</button></div>
+  <div class="t" id="saveinfo"></div></div>
+ <div class="ov" id="market"><h2>GUN MARKET</h2><div class="t" id="gmCred"></div><div class="gmList" id="gmList"></div><div class="t" id="gmMsg" style="color:#ffd54f"></div><button id="gmClose">BACK</button></div>
+ <div class="ov" id="pause"><h2>PAUSED</h2><button id="resume">RESUME</button><button id="tomenu">MAIN MENU</button><button id="pexit">EXIT GAME</button><div class="aud" id="audPause"></div></div>
+ <div class="ov" id="end"><h2 id="et"></h2><div class="t" id="es"></div><button id="eb"></button></div>
+ <div class="ov" id="chatp"><div class="chead"><span class="chsol" id="chSol"></span><b>AI Game Assistant</b><button id="chClose" aria-label="Close chat">CLOSE</button></div>
+  <div id="chLog" role="log" aria-live="polite"></div><div id="chSug"></div>
+  <div class="crow"><button id="chMic" aria-label="Speak your question">MIC</button><input id="chIn" maxlength="300" placeholder="Ask me anything about the game..." autocomplete="off" enterkeyhint="send" aria-label="Your question"><button id="chSend">SEND</button></div>
+  <div class="crow cset"><button id="chVoice">VOICE: ON</button><button id="chStop">STOP SPEAKING</button><select id="chVsel" aria-label="Voice"></select><button id="chPrev">PREVIEW</button><button id="chRetry" style="display:none">RETRY</button></div><div id="chNote"></div></div>
+ <div class="ov" id="tut"><div class="tinner"><span class="tsol" id="tutSol"></span><h2 id="tutT">Welcome! Here's how to play</h2><div class="t" id="tutStep"></div><div class="t" id="tutBody"></div>
+  <div class="row"><button id="tutBack">BACK</button><button id="tutNext">NEXT</button><button id="tutSkip">SKIP TUTORIAL</button></div></div></div>
+ <div class="ov" id="cfm"><h2 id="cfmT"></h2><div class="t" id="cfmM"></div><div class="row"><button id="cfmYes"></button><button id="cfmNo">CANCEL</button></div></div>
+ <div class="ov" id="exit"><h2>GAME EXITED</h2><div class="t">Your progress is saved. You can close this tab, or return to the main menu.</div><button id="exitBack">RETURN TO MAIN MENU</button></div>
+ <div id="tip" role="status"><span id="tipT"></span><button id="tipX" aria-label="Dismiss tip">x</button></div>
+ <div id="rl"><b>MAGAZINE EMPTY</b><pre>gun = ("Tuple", 0, "Standard Ammo")</pre><div class="t" id="rlTxt"></div><div class="row"><button id="rlR">RELOAD [R]</button><button id="rlP">PYTHON REARM [P]</button></div></div>
+ <div class="ov" id="pyr"><h2 id="pyT"></h2><div class="t" id="pyRule"></div><pre id="pyState"></pre><div class="t" id="pyErr"></div>
+  <textarea id="pyIn" spellcheck="false" placeholder="type Python here, one statement per line (example: ammo = list(ammo))" style="height:64px"></textarea>
+  <div class="row"><button id="pyRun">RUN</button><span id="pyGuided"></span></div><div class="t" id="pyWhy" style="display:none"></div>
+  <div class="row"><button id="pyHint">HINT</button><button id="pyWhyBtn">LEARN WHY</button><button id="pyGo">RESUME</button><button id="pyMenu">MAIN MENU</button></div></div>
+ <div class="ov" id="chal"><h2 id="ct"></h2><div id="cinfo"><div class="t" id="cm"></div><div class="t" id="cl"></div><pre id="cc"></pre><div class="t" id="cb"></div><div class="t" id="cguide"></div></div>
+  <textarea id="cin" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" aria-label="Python code editor"></textarea><div class="t" id="cfb" style="color:#ffd54f"></div>
+  <div><button id="csub">RUN CHECK</button> <button id="chint">HINT</button> <button id="cclose">BACK</button> <button id="cnext">NEXT QUEST</button> <button id="cmenu">MAIN MENU</button></div></div>
+</div>
+<div id="foot">WASD / arrows move | Mouse aim/shoot | R reload | B bomb | Q strike | C Python challenge | ESC pause</div>
+<div id="boot" role="status" aria-live="polite">
+ <div class="artbox"><img id="bootArt" src="assets/ghost-key-art.jpg" alt="" decoding="async"><i class="seye e1"></i><i class="seye e2"></i></div>
+ <canvas id="bootFx"></canvas><div class="vig"></div>
+ <div class="bootui"><div class="lockup" id="bootTitle"></div>
+  <div id="bootLoad"><div class="trk"><i id="bootBar"></i></div><div class="lbl"><span id="bootStep">STARTING</span><span id="bootPct">0%</span></div></div>
+  <button id="bootGo">DEPLOY</button>
+  <div id="bootErr"><div id="bootErrMsg"></div><button id="bootRetry">RETRY</button></div></div></div>
+<div id="orient"><b>GHOST CTS3</b><div class="phone"></div><div id="orientMsg">Rotate your phone sideways to play in landscape.</div><button id="orientGo">PLAY IN LANDSCAPE</button><button id="orientSkip">continue in portrait</button></div>
+<noscript>GHOST needs JavaScript enabled.</noscript>
+<script src="js/utils.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/challenges.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/game.js"></script>
+<script src="js/weapons.js"></script>
+<script src="js/bombs.js"></script>
+<script src="js/enemies.js"></script>
+<script src="js/player.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/market.js"></script>
+<script src="js/pyrules.js"></script>
+<script src="js/pyengine.js"></script>
+<script src="js/practice.js"></script>
+<script src="js/assistant.js"></script>
+<script src="js/render.js"></script>
+<script src="js/touch.js"></script>
+<script src="js/boot.js"></script>
+<script src="js/orient.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/main.js"></script>
+</body></html>
